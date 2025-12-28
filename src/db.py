@@ -43,3 +43,37 @@ def insert_suspicious_event(event: dict):
 
     conn.commit()
     conn.close()
+
+
+def get_top_suspicious_ips(limit=10):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        select ip, count(*) as total
+        from suspicious_events
+        group by ip
+        order by total desc
+        limit ?
+    """, (limit,))
+
+    rows = cursor.fetchall()
+    conn.close()
+    return rows
+
+
+def get_failed_login_trend():
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        select substr(timestamp, 1, 16) as minute, count(*)
+        from suspicious_events
+        where rule like 'FAILED_LOGIN%'
+        group by minute
+        order by minute
+    """)
+
+    rows = cursor.fetchall()
+    conn.close()
+    return rows
