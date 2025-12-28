@@ -9,6 +9,7 @@ from db import (
 )
 from reporting import plot_failed_login_trend
 from utils import get_most_targeted_urls
+from exporter import export_to_excel
 
 def main():
     print("Suspicious Activity Detector from System Logs (SADSL)")
@@ -55,6 +56,19 @@ def main():
 
     trend_data = get_failed_login_trend()
     plot_failed_login_trend(trend_data)
+
+    top_ips = get_top_suspicious_ips()
+    targeted_urls = get_most_targeted_urls(logs)
+
+    export_to_excel(
+        suspicious_logs,
+        top_ips,
+        targeted_urls,
+        output_file="sadsl_report.xlsx"
+    )
+
+    print("\nReports generated:")
+    print("- sadsl_report.xlsx")
 
 if __name__ == "__main__":
     main()
