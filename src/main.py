@@ -18,6 +18,20 @@ def main():
             f"Rule: {entry['rule']} | Action: {entry['action']} | Status: {entry['status']}"
         )
 
+    suspicious_ips = set()
+    total_failed_attempts = 0
+
+    for log in logs:
+        if log["status"].upper() == "FAILED":
+            total_failed_attempts += 1
+
+    for entry in suspicious_logs:
+        suspicious_ips.add(entry["ip"])
+
+    print("\nSummary:")
+    print(f"Total suspicious IPs: {len(suspicious_ips)}")
+    print(f"Total failed login attempts: {total_failed_attempts}")
+
 
 if __name__ == "__main__":
     main()
