@@ -4,6 +4,12 @@
     "max_attempts": 3,
     "severity": "High"
   },
+  "FAILED_LOGIN_TIME_WINDOW": {
+    "enabled": true,
+    "max_attempts": 3,
+    "window_minutes": 5,
+    "severity": "Critical"
+  },
   "RESTRICTED_URLS": {
     "enabled": true,
     "urls": ["/admin", "/config"],
