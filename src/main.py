@@ -1,7 +1,7 @@
 from log_reader import read_logs
 from detector import detect_suspicious_activity
 from utils import load_rules
-
+from db import create_tables, insert_suspicious_event
 
 def main():
     print("Suspicious Activity Detector from System Logs (SADSL)")
@@ -13,6 +13,8 @@ def main():
     logs = read_logs(log_file)
     rules = load_rules(rules_file)
 
+    create_tables()
+
     suspicious_logs = detect_suspicious_activity(logs, rules)
 
     print("Suspicious Activity Detected:\n")
@@ -22,6 +24,8 @@ def main():
             f"Rule: {entry['rule']} | Severity: {entry['severity']} | "
             f"Action: {entry['action']} | Status: {entry['status']}"
         )
+
+        insert_suspicious_event(entry)
 
     print("\nSummary:")
     suspicious_ips = {entry["ip"] for entry in suspicious_logs}
