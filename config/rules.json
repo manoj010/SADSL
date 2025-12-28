@@ -1,0 +1,12 @@
+{
+  "FAILED_LOGIN_THRESHOLD": {
+    "enabled": true,
+    "max_attempts": 3,
+    "severity": "High"
+  },
+  "RESTRICTED_URLS": {
+    "enabled": true,
+    "urls": ["/admin", "/config"],
+    "severity": "Medium"
+  }
+}
